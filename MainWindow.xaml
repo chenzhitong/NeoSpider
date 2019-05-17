@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeoSpider"
-        mc:Ignorable="d" Loaded="MainWindowLoaded" Closed="Window_Closed"
+        mc:Ignorable="d" Closed="Window_Closed"
         Title="NEO Spider" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -30,7 +30,7 @@
                   CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" Grid.RowSpan="3">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="TxId" Binding="{Binding TxId}"/>
-                <DataGridTextColumn Header="Time" Binding="{Binding Time}"/>
+                <DataGridTextColumn Header="Time" Binding="{Binding Time, StringFormat=\{0:yyyy/MM/dd HH:mm:ss\}}"/>
                 <DataGridTextColumn Header="Asset" Binding="{Binding Asset}"/>
                 <DataGridTextColumn Header="Amount" Binding="{Binding Amount}"/>
                 <DataGridTextColumn Header="Address From" Binding="{Binding AddressFrom}"/>

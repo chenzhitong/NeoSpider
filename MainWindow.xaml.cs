@@ -1,20 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using ThinNeo;
 
@@ -32,10 +21,6 @@ namespace NeoSpider
 
         List<Transaction> txList = new List<Transaction>();
         List<Transaction> txShow = new List<Transaction>();
-
-        private void MainWindowLoaded(object sender, RoutedEventArgs e)
-        {
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -55,7 +40,8 @@ namespace NeoSpider
             {
                 btn.IsEnabled = true;
             }
-
+            StateTextBlock.Text = $"Starting…";
+            DoEvents();
             var totalEntries = 0;
             using (var web = new WebClient())
             {
@@ -74,12 +60,14 @@ namespace NeoSpider
                         if (tx != null)
                             txList.Add(tx);
                     }
-                    StateTextBlock.Text = $"{i * pageSize}/{totalEntries}";
+                    StateTextBlock.Text = $"{Math.Min(i * pageSize, totalEntries)}/{totalEntries}";
                     DoEvents();
                 }
             }
+            StateTextBlock.Text = $"Calculating…";
+            DoEvents();
             ProcessData();
-            StateTextBlock.Text = $"{totalEntries}/{totalEntries}";
+            StateTextBlock.Text = $"Completed.";
             btn.IsEnabled = true;
         }
         public void DoEvents()
