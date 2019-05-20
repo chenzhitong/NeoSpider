@@ -27,6 +27,7 @@ namespace NeoSpider
             Button btn = sender as Button;
             btn.IsEnabled = false;
             var address = AddressTextBox.Text;
+            var startTime = StartTimeDatePicker.SelectedDate;
             try
             {
                 Helper_NEO.GetScriptHash_FromAddress(address);
@@ -51,6 +52,7 @@ namespace NeoSpider
                 var pageSize = (int)json["page_size"];
 
                 txList.Clear();
+                var stop = false;
                 for (int i = 1; i <= totalPages; i++)
                 {
                     json = web.DownloadJson(address, i);
@@ -58,9 +60,21 @@ namespace NeoSpider
                     {
                         var tx = Transaction.FromJson(item);
                         if (tx != null)
+                        {
+                            if (startTime != null && tx.Time < startTime)
+                            {
+                                stop = true;
+                                break;
+                            }
                             txList.Add(tx);
+                        }
                     }
-                    StateTextBlock.Text = $"{Math.Min(i * pageSize, totalEntries)}/{totalEntries}";
+                    if (stop)
+                        break;
+                    if(startTime != null)
+                        StateTextBlock.Text = $"{Math.Min(i * pageSize, totalEntries)}/{totalEntries}";
+                    else
+                        StateTextBlock.Text = $"{Math.Min(i * pageSize, totalEntries)}";
                     DoEvents();
                 }
             }

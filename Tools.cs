@@ -18,6 +18,11 @@ namespace NeoSpider
             return TimeZoneInfo.ConvertTimeFromUtc(new DateTime(1970, 1, 1), TimeZoneInfo.Local).AddSeconds((int)timeStamp);
         }
 
+        public static int ToTimeStamp(this DateTime? timeStamp)
+        {
+            return timeStamp == null ? 0 : (int)(timeStamp - TimeZoneInfo.ConvertTimeFromUtc(new DateTime(1970, 1, 1), TimeZoneInfo.Local))?.TotalSeconds;
+        }
+
         public static string ToName(this JToken assetId)
         {
             Dic.TryGetValue((string)assetId, out string name);
