@@ -71,7 +71,7 @@ namespace NeoSpider
                     }
                     if (stop)
                         break;
-                    if(startTime != null)
+                    if(startTime == null)
                         StateTextBlock.Text = $"{Math.Min(i * pageSize, totalEntries)}/{totalEntries}";
                     else
                         StateTextBlock.Text = $"{Math.Min(i * pageSize, totalEntries)}";
